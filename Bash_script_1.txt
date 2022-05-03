@@ -1,0 +1,206 @@
+#!/bin/bash
+
+echo "You are in the $PWD folder. If you continue, that script will make sub-folders and files in this folder. Would you continue?"
+read -p "( y / n ): " answer
+
+if [[ $answer == [yY] ]]
+then
+echo "Continuing . . ."
+elif [[ $answer == [nN] ]]
+then
+echo "The script stops working. If you still want to execute that script, please, run it again and then input \"y\"."
+exit
+else
+echo "You entered incorrect data: \"$answer\". Only \"y\" or \"n\" is acceptable answer. Please, run the script again."
+exit
+fi
+
+echo "I can do work automatically using predetermined folder's and file's names. Or you can manually type every folder's and file's name, and I will do all the other work. If you want to run automatic mode, just type \"a\", otherwise type \"m\"."
+read -p "( a / m ): " mode
+
+if [[ $mode == [aA] ]]
+then
+echo "Continuing in automatic mode . . ."
+folder1=folder_1
+folder2=folder_2
+folder3=folder_3
+folder4=folder_4
+folder5=folder_5
+folder6=folder_6
+folder7=folder_7
+file1=file_1.txt
+file2=file_2.txt
+file3=file_3.txt
+file4=file_4.json
+file5=file_5.json
+elif [[ $mode == [mM] ]]
+then
+echo "Continuing in manual mode . . ."
+else
+echo "You entered incorrect data: \"$mode\". Only \"a\" or \"m\" is acceptable answer. Please, run the script again."
+exit
+fi
+
+echo "I have to create a folder before doing task#3."
+
+if [[ $folder1 ]]
+then
+echo
+else
+read -p "Input folder 1 name: " folder1
+fi
+
+mkdir -v $folder1
+
+echo "3) Зайти в папку"
+
+cd $folder1
+echo "Changed directory to '$folder1'"
+
+echo "4) Создать 3 папки"
+
+if [[ $folder2 ]]
+then
+echo
+else
+read -p "Input folder 2 name: " folder2
+read -p "Input folder 3 name: " folder3
+read -p "Input folder 4 name: " folder4
+fi
+
+mkdir -v $folder2 $folder3 $folder4
+
+echo "5) Зайти в любоую папку"
+
+if [[ $mode == [aA] ]]
+then
+cd $folder2
+echo "Changed directory to '$folder2'"
+else
+echo "Input \"2\" to change path to folder \"$folder2\", \"3\" to change path to folder \"$folder3\", \"4\" to change path to folder \"$folder4\""
+read -p "( 2 / 3 / 4 ): " cfolder
+
+if [[ $cfolder == 2 ]]
+then
+cd $folder2
+echo "Changed directory to '$folder2'"
+elif [[ $cfolder == 3 ]]
+then
+cd $folder3
+echo "Changed directory to '$folder3'"
+elif [[ $cfolder == 4 ]]
+then
+cd $folder4
+echo "Changed directory to '$folder4'"
+else
+echo "You entered incorrect data: \"$cfolder\". The script stops working. All the folders created by script could be removed. Remove folders \"$folder1\", \"$folder2\", \"$folder3\", \"$folder4\"?"
+read -p "(y / n): " rmfolder
+
+if [[ $rmfolder == [yY] ]]
+then
+cd ..
+rm -rf $folder1
+elif [[ $rmfolder == [nN] ]]
+then
+echo "Folders will not be removed by script."
+else
+echo "Unrecognizable answer. Folders will not be removed by script."
+fi
+echo "Please, run script again."
+exit
+fi
+fi
+
+
+echo "6) Создать 5 файлов (3 txt, 2 json)"
+
+if [[ $file1 ]]
+then
+echo
+else
+read -p "Input file 1 name, '.txt' will be added automatically: " file1
+file1=$file1.txt
+read -p "Input file 2 name, '.txt' will be added automatically: " file2
+file2=$file2.txt
+read -p "Input file 3 name, '.txt' will be added automatically: " file3
+file3=$file3.txt
+read -p "Input file 4 name, '.json' will be added automatically: " file4
+file4=$file4.json
+read -p "Input file 5 name, '.json' will be added automatically: " file5
+file5=$file5.json
+fi
+
+for mkfile in $file1 $file2 $file3 $file4 $file5
+do
+touch $mkfile
+done
+
+echo "Successfully created '$file1', '$file2', '$file3', '$file4', '$file5'"
+
+echo "7) Создать 3 папки"
+
+if [[ $folder5 ]]
+then
+mkdir -v $folder5 $folder6 $folder5/$folder7
+else
+read -p "Input folder 5 name: " folder5
+read -p "Input folder 6 name: " folder6
+read -p "Input folder 7 name: " folder7
+mkdir -v $folder5 $folder6 $folder7
+fi
+
+echo "8) Вывести список содержимого папки"
+ls -1
+
+echo "13) переместить любые 2 файла, которые вы создали, в любую другую папку."
+
+if [[ $mode == [aA] ]]
+then
+mv $file1 $folder5
+mv $file4 $folder6
+echo "Successfully moved '$file1' to '$folder5' and '$file4' to '$folder6'."
+else
+for counter in 1 2
+do
+echo "Choose a file $counter to move: input \"1\" for $file1, \"2\" for $file2, \"3\" for $file3, \"4\" for $file4, \"5\" for $file5."
+read -p "( 1 / 2 / 3 / 4 / 5 ): " mvfile
+if [[ $mvfile == 1 ]]
+then
+mvfile=$file1
+elif [[ $mvfile == 2 ]]
+then
+mvfile=$file2
+elif [[ $mvfile == 3 ]]
+then
+mvfile=$file3
+elif [[ $mvfile == 4 ]]
+then
+mvfile=$file4
+elif [[ $mvfile == 5 ]]
+then
+mvfile=$file5
+else
+echo "Can't find the file. Please, run the script and try again."
+exit
+fi
+echo "Choose a folder to move $mvfile: input \"5\" for $folder5, \"6\" for $folder6, \"7\" for $folder7."
+read -p "( 5 / 6 / 7 ): " mvfolder
+if [[ $mvfolder == 5 ]]
+then
+mvfolder=$folder5
+elif [[ $mvfolder == 6 ]]
+then
+mvfolder=$folder6
+elif [[ $mvfolder == 7 ]]
+then
+mvfolder=$folder7
+else
+echo "Can't find the folder. Please, run the script and try again."
+exit
+fi
+mv $mvfile $mvfolder
+echo "Successfully moved '$mvfile' to '$mvfolder'."
+done
+fi
+
+echo "The script did all the work."
