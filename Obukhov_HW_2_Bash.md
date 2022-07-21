@@ -222,5 +222,5 @@ string 13 *`(Enter)`*
 
 >$ find . -iname "*.txt" | xargs grep -wl "sec" | xargs rm
 
- **40.** Просто вывести в терминал строку “*Good job!!*”
+ **40.** Просто вывести в терминал строку “*Good job!!*”.
 >$ echo 'Good job!!'
